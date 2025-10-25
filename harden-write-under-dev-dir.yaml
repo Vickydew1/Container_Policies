@@ -1,0 +1,25 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: harden-write-dev-ubuntu # Replace with your container name
+spec:
+  severity: 5
+  message: "Alert! File creation under /dev/ directory detected."
+  action: Audit
+
+  file:
+    matchDirectories:
+      - dir: /dev/
+        readOnly: true
+        recursive: true
+
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: "ubuntu-VD"  # Replace with your container name
+
+  tags:
+    - MITRE
+    - MITRE_T1036_masquerading
+    - NIST
+    - NIST_800-53_AU-2
+    - NIST_800-53_SI-4

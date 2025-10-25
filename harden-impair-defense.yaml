@@ -1,0 +1,26 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: harden-impair-defense-ubuntu # Replace with your container name
+spec:
+  severity: 6
+  message: "Selinux Files Accessed by Unknown Process"
+  action: Audit
+
+  file:
+    matchDirectories:
+      - dir: /etc/apparmor.d/
+        recursive: true
+      - dir: /etc/sysconfig/selinux/
+        recursive: true
+    matchPaths:
+      - path: /etc/selinux/semanage.conf
+
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: "ubuntu-VD"  # Replace with your container name
+
+  tags:
+    - FGT1562
+    - FIGHT
+    - MITRE
