@@ -192,20 +192,6 @@ sudo karmor vm policy delete ./harden-network-service-scanning-ubuntu.yaml
 karmor vm policy --help
 karmor vm policy add --help
 ```
-
----
-
-## 📚 Policy Examples in This Repository
-
-| Policy File | Description | Protection Type |
-|-------------|-------------|-----------------|
-| `harden-write-shm-ubuntu.yaml` | Blocks writes to `/dev/shm` | File Protection |
-| `harden-write-dev-ubuntu.yaml` | Prevents writes to `/dev` directory | File Protection |
-| `harden-file-integrity-ubuntu.yaml` | Enforces file integrity controls | File Protection |
-| `harden-network-service-scanning-ubuntu.yaml` | Blocks network scanning tools | Network Protection |
-| `harden-remote-file-copy-ubuntu.yaml` | Prevents unauthorized file transfers | Network Protection |
-| `harden-system-owner-discovery-ubuntu.yaml` | Blocks user enumeration attempts | Reconnaissance Prevention |
-
 ---
 
 ## 🐛 Troubleshooting
