@@ -1,7 +1,7 @@
 apiVersion: security.kubearmor.com/v1
 kind: KubeArmorPolicy
 metadata:
-  name: harden-remote-file-copy-ubuntu # Replace with your container name
+  name: harden-remote-file-copy
 spec:
   severity: 5
   message: "Alert! remote file copy tools execution prevented."

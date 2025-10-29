@@ -1,7 +1,7 @@
 apiVersion: security.kubearmor.com/v1
 kind: KubeArmorPolicy
 metadata:
-  name: harden-impair-defense-ubuntu # Replace with your container name
+  name: harden-impair-defense
 spec:
   severity: 6
   message: "Selinux Files Accessed by Unknown Process"

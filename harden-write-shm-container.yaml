@@ -1,7 +1,7 @@
 apiVersion: security.kubearmor.com/v1
 kind: KubeArmorPolicy
 metadata:
-  name: harden-write-shm-ubuntu # Replace with your container name
+  name: harden-write-shm
 spec:
   severity: 5
   message: "Alert! write to /dev/shm folder prevented."
@@ -9,14 +9,14 @@ spec:
 
   file:
     matchDirectories:
-      - dir: /dev/shm/
-        readOnly: true
-        recursive: true
+    - dir: /dev/shm/
+      readOnly: true
+      recursive: true
 
   selector:
     matchLabels:
-      kubearmor.io/container.name: "ubuntu-VD"  # Replace with container name
+      kubearmor.io/container.name: "ubuntu-VD" # Replace with container name
 
   tags:
-    - MITRE
-    - MITRE_execution
+  - MITRE
+  - MITRE_execution

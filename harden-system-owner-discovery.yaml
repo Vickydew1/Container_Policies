@@ -1,7 +1,7 @@
 apiVersion: security.kubearmor.com/v1
 kind: KubeArmorPolicy
 metadata:
-  name: harden-system-owner-discovery-ubuntu  # Replace with your container name
+  name: harden-system-owner-discovery
 spec:
   severity: 3
   message: "System owner discovery command execution denied"

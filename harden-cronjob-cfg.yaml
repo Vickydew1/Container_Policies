@@ -1,0 +1,39 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: harden-cronjob-cfg
+spec:
+  severity: 5
+  message: "Alert! Access to cron job files/directories detected."
+  action: Audit
+
+  file:
+    matchDirectories:
+    - dir: /etc/cron.d/
+      recursive: true
+    - dir: /etc/cron.daily/
+      recursive: true
+    - dir: /etc/cron.hourly/
+      recursive: true
+    - dir: /etc/cron.monthly/
+      recursive: true
+    - dir: /etc/cron.weekly/
+      recursive: true
+    - dir: /var/cron/
+      recursive: true
+    - dir: /var/spool/cron/
+      recursive: true
+    matchPaths:
+    - path: /etc/crontab
+
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: "ubuntu-VD" # Replace with your actual container name
+
+  tags:
+  - CIS
+  - CIS_5.1_Configure_Cron
+  - CIS_Linux
+  - NIST
+  - NIST_800-53_SI-4
+  - MITRE

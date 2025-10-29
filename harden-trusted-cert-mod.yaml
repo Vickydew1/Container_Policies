@@ -1,8 +1,7 @@
 apiVersion: security.kubearmor.com/v1
 kind: KubeArmorPolicy
 metadata:
-  name: harden-trusted-cert-mod-ubuntu # Replace with your container name
-spec:
+  name: harden-trusted-cert-mod
   severity: 1
   message: "Credentials modification denied"
   action: Block

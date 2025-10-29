@@ -1,7 +1,7 @@
 apiVersion: security.kubearmor.com/v1
 kind: KubeArmorPolicy
 metadata:
-  name: harden-pkg-mngr-exec-ubuntu   # Replace with your container name
+  name: harden-pkg-mngr-exec
 spec:
   severity: 5
   message: "Alert! Execution of package management process inside container is denied"
