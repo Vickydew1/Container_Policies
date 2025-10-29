@@ -50,8 +50,6 @@ Block unauthorized access to sensitive credentials and secrets.
 
 ### 🔍 System Reconnaissance
 Detect and prevent information gathering activities.
-- **Policy:** `harden-system-owner-discovery-ubuntu.yaml`
-- **Purpose:** Blocks system owner/user enumeration attempts
 
 ### 📦 Package Installation
 Control software installation to prevent malicious package deployment.
@@ -64,19 +62,9 @@ Prevent attackers from establishing persistent access or impersonating legitimat
 
 ### 📝 Unauthorized File Writes
 Block writes to critical system files and directories.
-- **Policy:** `harden-write-shm-ubuntu.yaml`
-- **Purpose:** Protects `/dev/shm` from unauthorized writes
-- **Policy:** `harden-write-dev-ubuntu.yaml`
-- **Purpose:** Prevents writes to `/dev` directory
-- **Policy:** `harden-file-integrity-ubuntu.yaml`
-- **Purpose:** Enforces file integrity controls
 
 ### 🌐 Network Security
 Control network operations and prevent reconnaissance.
-- **Policy:** `harden-network-service-scanning-ubuntu.yaml`
-- **Purpose:** Blocks network service scanning attempts
-- **Policy:** `harden-remote-file-copy-ubuntu.yaml`
-- **Purpose:** Prevents unauthorized remote file transfers (SCP, FTP, etc.)
 
 ---
 
@@ -95,6 +83,8 @@ nano <policy-name>.yaml
 ```bash
 sudo karmor vm policy add <policy-file>.yaml
 ```
+![Alt text](Proof.png)
+
 
 3. **Optional - Specify custom gRPC server:**
 
