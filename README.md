@@ -30,11 +30,7 @@ Ensure the following components are installed:
   - BPF-LSM (recommended)
 - `karmor` CLI installed
 
-Check status:
 
-```bash
-sudo karmor status
-```
 
 ---
 
