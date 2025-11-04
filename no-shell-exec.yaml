@@ -1,0 +1,23 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: no-shell-exec
+  annotations:
+    app.accuknox.com/type: harden
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  action: Block
+  message: "Blocked shell execution inside the container"
+  process:
+    matchPaths:
+    - execname: bash
+    - execname: sh
+    - execname: dash
+    - execname: zsh
+  severity: 3
+  tags:
+  - MITRE_T1059_COMMAND_AND_SCRIPTING_INTERPRETER
+  - NIST_CM-7
+  - PCI_DSS_10.2.6

@@ -1,0 +1,26 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: network-service-scanning
+  annotations:
+    app.accuknox.com/type: harden
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  action: Audit
+  severity: 5
+  message: "Detected execution of network interface/service enumeration utilities"
+  process:
+    matchPaths:
+    - execname: ip
+    - execname: netstat
+    - execname: iw
+    - execname: iwconfig
+    - execname: ifconfig
+    - execname: arp
+    - execname: ethtool
+  tags:
+  - MITRE_T1046_NETWORK_SERVICE_DISCOVERY
+  - NIST_PR.PT-1
+  - PCI_DSS_10.2.3

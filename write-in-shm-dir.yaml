@@ -1,0 +1,22 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: write-in-shm-dir
+  annotations:
+    app.accuknox.com/type: harden
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  action: Audit
+  severity: 7
+  message: "Detected attempt to write to /dev/shm folder"
+  file:
+    matchDirectories:
+    - dir: /dev/shm/
+      readOnly: true
+      recursive: true
+  tags:
+  - MITRE_T1543_CREATE_OR_MODIFY_SYSTEM_PROCESS
+  - NIST_PR.AC-4
+  - PCI_DSS_11.5.1

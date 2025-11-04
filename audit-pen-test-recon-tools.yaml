@@ -1,0 +1,28 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: block-pen-test-recon-tools
+  annotations:
+    app.accuknox.com/type: harden
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  action: Block
+  severity: 5
+  message: "Blocked Reconnaissance or Penetration Testing tool execution"
+  process:
+    matchPaths:
+    - execname: nmap
+    - execname: masscan
+    - execname: zmap
+    - execname: hydra
+    - execname: john
+    - execname: hashcat
+    - execname: medusa
+    - execname: patator
+  tags:
+  - MITRE_T1110_BRUTE_FORCE
+  - MITRE_T1046_NETWORK_SCANNING
+  - NIST_SI-4
+  - PCI_DSS_11.5

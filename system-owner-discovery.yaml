@@ -1,0 +1,33 @@
+# Added Audit mode for /usr/bin/id
+
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: system-owner-discovery
+  annotations:
+    app.accuknox.com/type: harden
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  action: Audit
+  severity: 3
+  message: "Detected system owner/user enumeration command execution"
+  process:
+    matchPaths:
+    - execname: id
+    - execname: w
+    - execname: who
+    - execname: whoami
+    - execname: logname
+    - execname: groups
+    - execname: last
+    - execname: users
+    - execname: getent
+  file:
+    matchPaths:
+    - path: /etc/group
+  tags:
+  - MITRE_T1033_SYSTEM_OWNER_USER_DISCOVERY
+  - NIST_PR.AC-1
+  - PCI_DSS_7.2.1

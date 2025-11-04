@@ -1,0 +1,21 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: audit-tmp-usage
+  annotations:
+    app.accuknox.com/type: harden
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  message: "Detected /tmp directory access"
+  severity: 3
+  file:
+    matchDirectories:
+    - dir: /tmp/
+      recursive: true
+  action: Audit
+  tags:
+  - MITRE_T1074_DATA_STAGED
+  - NIST_AU-6
+  - PCI_DSS_10.2.6

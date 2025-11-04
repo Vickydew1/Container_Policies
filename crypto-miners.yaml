@@ -1,0 +1,35 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: harden-crypto-miners
+  namespace: default # change if your container runs in another namespace
+  annotations:
+    app.accuknox.com/type: harden
+    app.accuknox.com/category: malware-prevention
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  action: Block
+  severity: 3
+  message: "Blocked Cryptominer in container test-container"
+  process:
+    matchPaths:
+    # DERO cryptominers
+    - execname: dero-miner-linux-amd64
+    - execname: dero-wallet-cli-linux-amd64
+    - execname: dero
+    - execname: derod-linux-amd64
+
+    # Monero CPU/GPU miners
+    - execname: xmrig
+    - execname: xmrig-stak
+    - execname: minerd
+    - execname: mminerd
+    - execname: cpuminer
+    - execname: sgminer
+    - execname: ccminer
+  tags:
+  - MITRE_T1496_RESOURCE_HIJACKING
+  - NIST_CM-7
+  - PCI_DSS_6.2

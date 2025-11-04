@@ -1,0 +1,22 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: write-under-dev-dir
+  annotations:
+    app.accuknox.com/type: harden
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  action: Audit
+  severity: 5
+  message: "Detected File creation under /dev/ directory"
+  file:
+    matchDirectories:
+    - dir: /dev/
+      readOnly: true
+      recursive: true
+  tags:
+  - MITRE_T1055_PROCESS_INJECTION
+  - NIST_PR.DS-8
+  - PCI_DSS_5.1

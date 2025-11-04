@@ -1,0 +1,25 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: maint-tools-access
+  annotations:
+    app.accuknox.com/type: harden
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  action: Audit
+  severity: 1
+  message: "Detected restricted maintenance tool access attempt"
+  process:
+    matchDirectories:
+    - dir: /sbin/
+      recursive: true
+    - dir: /usr/sbin/
+      recursive: true
+    - dir: /usr/local/sbin/
+      recursive: true
+  tags:
+  - MITRE_T1543_003_CREATE_MODIFY_SYSTEM_PROCESS
+  - NIST_RS.AN-1
+  - PCI_DSS_2.2.2

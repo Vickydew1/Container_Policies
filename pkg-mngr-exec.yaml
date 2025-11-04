@@ -1,0 +1,36 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: pkg-mngr-exec
+  annotations:
+    app.accuknox.com/type: harden
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  action: Audit
+  message: "Detected package manager/build tool execution inside container"
+  process:
+    matchPaths:
+    # Debian / Ubuntu
+    - execname: apt
+    - execname: apt-get
+    - execname: dpkg
+    - execname: gdebi
+    # RHEL / Fedora / CentOS
+    - execname: dnf
+    - execname: rpm
+    - execname: yum
+    # SUSE
+    - execname: zypper
+    # Alpine
+    - execname: apk
+    # Arch / Manjaro
+    - execname: pacman
+    - execname: makepkg
+    - execname: yaourt
+  severity: 5
+  tags:
+  - MITRE_T1543_CREATE_MODIFY_SYSTEM_PROCESS
+  - NIST_PR.DS-8
+  - PCI_DSS_6.3.2

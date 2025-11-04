@@ -1,0 +1,23 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: remote-file-copy
+  annotations:
+    app.accuknox.com/type: harden
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  action: Block
+  message: "Blocked remote file copy utility execution"
+  process:
+    matchPaths:
+    - execname: scp
+    - execname: rsync
+    - execname: sftp
+    - execname: ftp
+  severity: 5
+  tags:
+  - MITRE_T1552_UNSECURED_CREDENTIALS
+  - NIST_800-53_SI
+  - PCI_DSS_4.1

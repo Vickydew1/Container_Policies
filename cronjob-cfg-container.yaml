@@ -1,12 +1,15 @@
 apiVersion: security.kubearmor.com/v1
 kind: KubeArmorPolicy
 metadata:
-  name: harden-cronjob-cfg
+  name: cronjob-cfg
+  annotations:
+    app.accuknox.com/type: harden
 spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  message: "Detected access to cron job files/directories"
   severity: 5
-  message: "Alert! Access to cron job files/directories detected."
-  action: Audit
-
   file:
     matchDirectories:
     - dir: /etc/cron.d/
@@ -25,15 +28,15 @@ spec:
       recursive: true
     matchPaths:
     - path: /etc/crontab
-
-  selector:
-    matchLabels:
-      kubearmor.io/container.name: "ubuntu-VD" # Replace with your actual container name
-
+      readOnly: true
+    - path: /etc/anacrontab
+      readOnly: true
+    - path: /etc/cron.allow
+      readOnly: true
+    - path: /etc/cron.deny
+      readOnly: true
+  action: Audit
   tags:
-  - CIS
-  - CIS_5.1_Configure_Cron
-  - CIS_Linux
-  - NIST
+  - MITRE_T1053_SCHEDULED_TASK
   - NIST_800-53_SI-4
-  - MITRE
+  - PCI_DSS_6.4

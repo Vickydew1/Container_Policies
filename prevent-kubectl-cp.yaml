@@ -1,0 +1,20 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: prevent-kubectl-cp
+  annotations:
+    app.accuknox.com/type: harden
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  action: Block
+  message: "Blocked tar execution (kubectl cp or other file transfer)"
+  process:
+    matchPaths:
+    - execname: tar
+  severity: 7
+  tags:
+  - MITRE_T1105_REMOTE_FILE_COPY
+  - NIST_CM-7
+  - PCI_DSS_10.2.6

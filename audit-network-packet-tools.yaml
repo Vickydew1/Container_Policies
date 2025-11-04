@@ -1,0 +1,31 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: audit-network-packet-tools
+  annotations:
+    app.accuknox.com/type: harden
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  action: Audit
+  severity: 3
+  message: "Detected use of network packet manipulation tool"
+  process:
+    matchPaths:
+    - execname: iptables
+    - execname: ip6tables
+    - execname: nft
+    - execname: nftables
+    - execname: ip
+    - execname: iproute2
+    - execname: tc
+    - execname: brctl
+    - execname: arp
+    - execname: arptables
+    - execname: ebtables
+    - execname: ethtool
+  tags:
+  - MITRE_T1562_IMPAIR_DEFENSE
+  - NIST_CM-7
+  - PCI_DSS_10.2.6

@@ -1,0 +1,28 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: trusted-cert-mod
+  annotations:
+    app.accuknox.com/type: harden
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  action: Audit
+  severity: 2
+  message: "Detected attempt to modify trusted certificates"
+  file:
+    matchDirectories:
+    - dir: /etc/pki/
+      recursive: true
+      readOnly: true
+    - dir: /etc/ssl/
+      recursive: true
+      readOnly: true
+    - dir: /usr/local/share/ca-certificates/
+      recursive: true
+      readOnly: true
+  tags:
+  - MITRE_T1552_UNSECURED_CREDENTIALS
+  - NIST_PR.PT-1
+  - PCI_DSS_10.5.5

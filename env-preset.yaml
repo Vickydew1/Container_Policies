@@ -1,0 +1,18 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: block-env-access
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  file:
+    matchPaths:
+    - path: /proc/self/environ
+  action: Block
+  message: "Blocked unauthorized access to /proc/self/environ"
+  severity: 5
+  tags:
+  - MITRE_T1059
+  - NIST_CM-7
+  - PCI_DSS_10.2.6

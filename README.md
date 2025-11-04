@@ -1,242 +1,151 @@
-# 🔐 VM/Bare-metal Container Hardening Policies using KubeArmor
+🔐 KubeArmor VM/Bare-metal Container Hardening Policies
+=======================================================
 
-This repository contains a curated collection of **container-scoped security policies** built for **runtime workload protection** using **KubeArmor in VM/bare-metal mode**.
+This repository provides a curated collection of **container-scoped runtime security policies** for **VM or bare-metal environments** using **KubeArmor**.Each policy enhances **workload protection** by enforcing runtime restrictions at the **container or host level** — without requiring Kubernetes.
 
-These policies help detect and prevent:
+⚙️ Overview
+-----------
 
-- Defense evasion
-- Credential exfiltration
-- System reconnaissance
-- Package installation
-- Certificate trust tampering
-- Masquerading & persistence
-- Unauthorized file writes
-- Network-based attacks
+These policies defend against:
 
-All policies follow **least privilege** and are designed for **container-level enforcement on standalone hosts**.
+*   🛡️ Defense Evasion
+    
+*   🔑 Credential Exfiltration
+    
+*   🔍 System Reconnaissance
+    
+*   📦 Unauthorized Package Installation
+    
+*   🔐 Certificate Tampering
+    
+*   🎭 Masquerading & Persistence
+    
+*   📝 Unauthorized File Writes
+    
+*   🌐 Network & Remote Access Abuse
+    
 
----
+All policies are written in **KubeArmorPolicy (container scope)** format, deployable via the karmor CLI on **Ubuntu-based VMs**.
 
-## 🧰 Prerequisites
+🧰 Prerequisites
+----------------
 
-Ensure the following components are installed:
+Ensure your system meets the following requirements:
 
-- Ubuntu/Linux VM or bare-metal server
-- Docker or container runtime
-- KubeArmor service running
-- LSM Enabled:
-  - AppArmor
-  - SELinux
-  - BPF-LSM (recommended)
-- `karmor` CLI installed
+ComponentDescription**OS**Ubuntu 22.04+ (VM or Bare-metal)**Container Runtime**Docker or containerd**KubeArmor**Installed and running**LSM**AppArmor / SELinux / BPF-LSM (enabled)**CLI**karmor installed
 
-Check status:
+Check your setup:
 
-```bash
-sudo karmor status
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   sudo karmor status   `
 
----
+Expected output:✅ KubeArmor is active✅ LSM: AppArmor (or BPF-LSM) enabled✅ gRPC connected
 
-## 📋 Policy Categories
+🧭 Environment Setup Summary
+----------------------------
 
-The policies in this repository cover various security domains:
+Below is the summarized workflow we followed during setup:
 
-### 🛡️ Defense Evasion
-Prevent attackers from disabling security mechanisms or hiding their tracks.
+1.  **Created Ubuntu VM in Oracle Cloud (OCI)**→ Canonical Ubuntu 22.04 image, with public key authentication
+    
+2.  curl -s -L https://raw.githubusercontent.com/kubearmor/KubeArmor/main/install.sh | sudo bash
+    
+3.  sudo systemctl status kubearmorsudo karmor status
+    
+4.  docker run -dit --name test-container ubuntu:latest
+    
+5.  **Applied and validated multiple KubeArmor container policies**
+    
 
-### 🔑 Credential Exfiltration
-Block unauthorized access to sensitive credentials and secrets.
+📋 Policy Categories
+--------------------
 
-### 🔍 System Reconnaissance
-Detect and prevent information gathering activities.
+CategoryDescription🛡️ **Defense Evasion**Detect and block attempts to disable or bypass security controls🔑 **Credential Exfiltration**Prevent data theft via scp, ftp, etc.🔍 **System Reconnaissance**Detect enumeration via whoami, id, etc.📦 **Package Management**Restrict apt-get, yum, or similar commands🔐 **Trusted Certificate Tampering**Protect /etc/ssl, /usr/local/share/ca-certificates/🎭 **Masquerading & Persistence**Block unauthorized file writes or privilege escalation📝 **File Integrity Monitoring**Audit or block writes under /etc, /dev, /dev/shm🌐 **Remote Services**Monitor SSH, Sudoers, or /etc/hosts.allow activity
 
-### 📦 Package Installation
-Control software installation to prevent malicious package deployment.
+🚀 Applying Policies
+--------------------
 
-### 🔐 Certificate Trust Tampering
-Protect certificate stores from unauthorized modifications.
+### 1️⃣ Create a policy file
 
-### 🎭 Masquerading & Persistence
-Prevent attackers from establishing persistent access or impersonating legitimate processes.
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   nano .yaml   `
 
-### 📝 Unauthorized File Writes
-Block writes to critical system files and directories.
+### 2️⃣ Apply the policy
 
-### 🌐 Network Security
-Control network operations and prevent reconnaissance.
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   sudo karmor vm policy add .yaml   `
 
----
+### 3️⃣ Optional: Apply via specific gRPC endpoint
 
-## 🚀 Usage
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   sudo karmor vm policy add .yaml --gRPC 127.0.0.1:50051   `
 
-### Applying Policies
+🧪 Testing Policies
+-------------------
 
-1. **Create or edit a policy file:**
+Example — testing a file write protection policy:
 
-```bash
-nano <policy-name>.yaml
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   # Access the container  sudo docker exec -it test-container bash  # Attempt restricted operation  touch /dev/shm/testfile  # Should trigger Audit/Block  # Exit container  exit   `
 
-2. **Apply the policy:**
+Monitor logs:
 
-```bash
-sudo karmor vm policy add <policy-file>.yaml
-```
-![Alt text](Proof.png)
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   sudo karmor logs   `
 
+Expected message:
 
-3. **Optional - Specify custom gRPC server:**
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   [Audit] Detected attempt to write to /dev/shm folder   `
 
-```bash
-sudo karmor vm policy add <policy-file>.yaml --gRPC 127.0.0.1:50051
-```
+🗑️ Removing Policies
+---------------------
 
-### Testing Policies
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   sudo karmor vm policy delete .yaml   `
 
-Test policies by accessing your container and attempting blocked operations:
+🧠 Example Workflow (End-to-End)
+--------------------------------
 
-```bash
-# Access the container
-docker exec -it <container-name> /bin/bash
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   # 1. Create policy  vim write-under-dev-dir.yaml  # 2. Apply  sudo karmor vm policy add write-under-dev-dir.yaml  # 3. Verify in logs  sudo karmor logs  # 4. Test in container  docker exec -it test-container bash  touch /dev/testfile  # 5. Remove when done  sudo karmor vm policy delete write-under-dev-dir.yaml   `
 
-# Try operations that should be blocked by the policy
-touch /dev/shm/testfile  # Example for write protection policy
+🧾 Policy Library (Summary)
+---------------------------
 
-# Exit container
-exit
-```
+Policy NameDescriptionActionpkg-mngr-exec.yamlPrevent package installations (apt-get, dpkg)Blockprevent-kubectl-cp.yamlBlock tar execution (used by kubectl cp)Blockremote-file-copy.yamlBlock scp, rsync, ftp, sftpBlockremote-services.yamlAudit SSH and sudoers modificationsAuditsystem-owner-discovery.yamlDetect user enumeration commandsAudittrusted-cert-mod.yamlMonitor changes to certificate storesAuditwrite-etc-dir.yamlDetect file creation under /etc/Auditwrite-in-shm-dir.yamlAudit writes to /dev/shm/Auditwrite-under-dev-dir.yamlAudit file writes in /dev/Audit
 
-### Removing Policies
+🐞 Troubleshooting Guide
+------------------------
 
-Remove policies when they're no longer needed:
+### Policy not taking effect
 
-```bash
-sudo karmor vm policy delete <policy-file>.yaml
-```
+*   Run sudo karmor status
+    
+*   Ensure container is **running** and **KubeArmor service** is active
+    
+*   Check syntax and indentation in YAML
+    
 
-### Monitoring Policy Violations
+### Operations not blocked
 
-Monitor policy enforcement and violations in real-time:
+*   Ensure policy was applied successfully
+    
+*   Paths in rules must match container paths
+    
+*   Check logs: sudo karmor logs
+    
 
-```bash
-sudo karmor logs
-```
+### gRPC errors
 
----
+*   Default address: 127.0.0.1:50051
+    
+*   Verify service: sudo systemctl status kubearmor
+    
+*   View logs: journalctl -u kubearmor -f
+    
 
-## 📝 Example Workflow
+📚 References
+-------------
 
-Here's a complete example of applying and testing the `/dev/shm` write protection policy:
+*   [KubeArmor Official Docs](https://docs.kubearmor.io/)
+    
+*   [KubeArmor Policy Examples](https://github.com/kubearmor/KubeArmor/tree/main/examples)
+    
+*   [AccuKnox Platform](https://app.demo.accuknox.com/)
+    
+*   [VM/Bare-metal Deployment Guide](https://docs.kubearmor.io/kubearmor/quick-links/deployment_guide)
+    
 
-```bash
-# 1. Create the policy file
-nano harden-write-shm-ubuntu.yaml
-
-# 2. Apply the policy
-sudo karmor vm policy add harden-write-shm-ubuntu.yaml
-# Output: Policy Applied
-
-# 3. Test in a container
-docker exec -it ubuntu-VD /bin/bash
-root@8f23f37ca1d4:/# touch /dev/shm/testfile
-# Operation should be blocked by KubeArmor
-root@8f23f37ca1d4:/# exit
-
-# 4. Monitor the blocked attempt
-sudo karmor logs
-
-# 5. Remove policy if needed
-sudo karmor vm policy delete harden-write-shm-ubuntu.yaml
-```
-
----
-
-## 🔍 Available Commands
-
-### Policy Management
-
-```bash
-karmor vm policy add <file>       # Apply a new policy from YAML file
-karmor vm policy delete <file>    # Remove an existing policy
-```
-
-### Global Flags
-
-- `--gRPC <address>` - Specify KubeArmor gRPC server address (default: 127.0.0.1:50051)
-- `-h, --help` - Display help information
-
-### Examples
-
-```bash
-# Apply a file-access policy
-sudo karmor vm policy add ./harden-file-integrity-ubuntu.yaml
-
-# Apply with custom gRPC server
-sudo karmor vm policy add ./harden-write-dev-ubuntu.yaml --gRPC 192.168.1.100:50051
-
-# Remove a policy
-sudo karmor vm policy delete ./harden-network-service-scanning-ubuntu.yaml
-
-# Get help
-karmor vm policy --help
-karmor vm policy add --help
-```
----
-
-## 🐛 Troubleshooting
-
-### Policy Not Applied
-
-**Symptoms:** Policy add command succeeds but protection doesn't work
-
-**Solutions:**
-- Verify KubeArmor service is running: `sudo karmor status`
-- Check policy syntax and YAML formatting
-- Ensure gRPC server is accessible (default: `127.0.0.1:50051`)
-- Verify LSM (AppArmor/BPF-LSM) is active on your system
-
-### Container Operations Not Blocked
-
-**Symptoms:** Blocked operations still succeed inside container
-
-**Solutions:**
-- Confirm policy was successfully applied: check for "Policy Applied" message
-- Review policy rules and file paths - ensure they match your container paths
-- Check if container name/ID matches policy selectors
-- Verify LSM enforcement: `sudo aa-status` (for AppArmor)
-- Review logs for policy violations: `sudo karmor logs`
-
-### gRPC Connection Issues
-
-**Symptoms:** Cannot connect to KubeArmor gRPC server
-
-**Solutions:**
-- Verify KubeArmor service is running: `systemctl status kubearmor`
-- Check firewall rules if using remote gRPC server
-- Explicitly specify gRPC address: `--gRPC 127.0.0.1:50051`
-- Review KubeArmor service logs: `journalctl -u kubearmor -f`
-
-### Policy Conflicts
-
-**Symptoms:** Multiple policies causing unexpected behavior
-
-**Solutions:**
-- List all applied policies and review for conflicts
-- Remove conflicting policies: `sudo karmor vm policy delete <file>`
-- Apply policies incrementally and test each one
-- Ensure policy rules don't overlap or contradict
-
----
-
-## 📖 Additional Resources
-
-- [KubeArmor Documentation](https://docs.kubearmor.io/)
-- [KubeArmor VM/Bare-metal Deployment Guide](https://docs.kubearmor.io/kubearmor/quick-links/deployment_guide)
-- [Policy Examples](https://github.com/kubearmor/KubeArmor/tree/main/examples)
-- [AccuKnox Platform](https://www.accuknox.com/)
-
----
-
-
-**⭐ If you find this repository helpful, please star it!**
+**⭐ Star this repo if you find it useful!****🛠 Maintained by:** Vicky Dewangan Forward Deployed Engineer

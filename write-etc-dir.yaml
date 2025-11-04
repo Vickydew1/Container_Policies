@@ -1,0 +1,22 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: write-etc-dir
+  annotations:
+    app.accuknox.com/type: harden
+spec:
+  selector:
+    matchLabels:
+      kubearmor.io/container.name: test-container # change with your container name
+  action: Audit
+  severity: 5
+  message: "Detected File creation under /etc/ directory"
+  file:
+    matchDirectories:
+    - dir: /etc/
+      recursive: true
+      readOnly: true
+  tags:
+  - MITRE_T1036_MASQUERADING
+  - NIST_800-53_SI-7
+  - PCI_DSS_2.2.2
