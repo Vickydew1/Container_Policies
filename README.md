@@ -34,9 +34,13 @@ Ensure your system meets the following requirements:
 
 ComponentDescription**OS**Ubuntu 22.04+ (VM or Bare-metal)**Container Runtime**Docker or containerd**KubeArmor**Installed and running**LSM**AppArmor / SELinux / BPF-LSM (enabled)**CLI**karmor installed
 
+<<<<<<< HEAD
 Check your setup:
 
 Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   sudo karmor status   `
+=======
+
+>>>>>>> 62c3513a6a5edce2a774a1d0086edfed35271a4a
 
 Expected output:✅ KubeArmor is active✅ LSM: AppArmor (or BPF-LSM) enabled✅ gRPC connected
 
