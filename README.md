@@ -97,8 +97,6 @@ nano <policy-name>.yaml
 sudo karmor vm policy add <policy-file>.yaml
 ```
 
-![Policy Applied Screenshot](Proof.png)
-
 ### 3️⃣ Optional: Apply via specific gRPC endpoint
 ```bash
 sudo karmor vm policy add <policy-file>.yaml --gRPC 127.0.0.1:50051
