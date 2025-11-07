@@ -1,24 +1,28 @@
 apiVersion: security.kubearmor.com/v1
 kind: KubeArmorPolicy
 metadata:
-  name: remote-file-copy
+  name: remote-services
   annotations:
     app.accuknox.com/type: harden
   namespace: container_namespace
 spec:
   selector:
     matchLabels:
-      kubearmor.io/container.name: test-container # change with your container name
-  action: Block
-  message: "Blocked remote file copy utility execution"
-  process:
-    matchPaths:
-    - execname: scp
-    - execname: rsync
-    - execname: sftp
-    - execname: ftp
+      kubearmor.io/container.name: test-container
+  action: Audit
   severity: 5
+  message: "Detected access to sensitive remote access configuration files"
+  file:
+    matchDirectories:
+    - dir: /etc/ssh/
+      recursive: true
+    - dir: /root/.ssh/
+      recursive: true
+    matchPaths:
+    - path: /etc/sudoers
+    - path: /etc/hosts.allow
+    - path: /etc/hosts.deny
   tags:
-  - MITRE_T1552_UNSECURED_CREDENTIALS
-  - NIST_800-53_SI
-  - PCI_DSS_4.1
+  - MITRE_T1021_REMOTE_SERVICES
+  - NIST_PR.DS-1
+  - PCI_DSS_10.2.3

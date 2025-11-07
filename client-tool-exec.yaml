@@ -1,7 +1,7 @@
 apiVersion: security.kubearmor.com/v1
 kind: KubeArmorPolicy
 metadata:
-  name: k8s-client-tool-exec
+  name: client-tool-exec
   annotations:
     app.accuknox.com/type: harden
   namespace: container_namespace
