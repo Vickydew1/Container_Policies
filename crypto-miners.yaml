@@ -2,10 +2,10 @@ apiVersion: security.kubearmor.com/v1
 kind: KubeArmorPolicy
 metadata:
   name: harden-crypto-miners
-  namespace: default # change if your container runs in another namespace
   annotations:
     app.accuknox.com/type: harden
     app.accuknox.com/category: malware-prevention
+  namespace: container_namespace
 spec:
   selector:
     matchLabels:

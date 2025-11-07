@@ -2,6 +2,7 @@ apiVersion: security.kubearmor.com/v1
 kind: KubeArmorPolicy
 metadata:
   name: block-env-access
+  namespace: container_namespace
 spec:
   selector:
     matchLabels:

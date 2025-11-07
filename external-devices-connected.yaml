@@ -4,6 +4,7 @@ metadata:
   name: audit-external-device
   annotations:
     app.accuknox.com/type: harden
+  namespace: container_namespace
 spec:
   selector:
     matchLabels:

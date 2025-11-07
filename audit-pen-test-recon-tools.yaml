@@ -4,6 +4,7 @@ metadata:
   name: block-pen-test-recon-tools
   annotations:
     app.accuknox.com/type: harden
+  namespace: container_namespace
 spec:
   selector:
     matchLabels:

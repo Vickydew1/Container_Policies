@@ -4,6 +4,7 @@ metadata:
   name: prevent-kubectl-cp
   annotations:
     app.accuknox.com/type: harden
+  namespace: container_namespace
 spec:
   selector:
     matchLabels:

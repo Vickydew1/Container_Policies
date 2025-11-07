@@ -4,6 +4,7 @@ metadata:
   name: cronjob-cfg
   annotations:
     app.accuknox.com/type: harden
+  namespace: container_namespace
 spec:
   selector:
     matchLabels:

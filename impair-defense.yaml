@@ -4,6 +4,7 @@ metadata:
   name: impair-defense
   annotations:
     app.accuknox.com/type: harden
+  namespace: container_namespace
 spec:
   selector:
     matchLabels:

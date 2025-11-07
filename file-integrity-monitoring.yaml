@@ -2,6 +2,7 @@ apiVersion: security.kubearmor.com/v1
 kind: KubeArmorPolicy
 metadata:
   name: harden-file-integrity
+  namespace: container_namespace
 spec:
   severity: 1
   message: "Detected and prevented compromise to File integrity"

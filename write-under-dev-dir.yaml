@@ -4,6 +4,7 @@ metadata:
   name: write-under-dev-dir
   annotations:
     app.accuknox.com/type: harden
+  namespace: container_namespace
 spec:
   selector:
     matchLabels:

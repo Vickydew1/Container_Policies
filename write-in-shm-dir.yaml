@@ -4,6 +4,7 @@ metadata:
   name: write-in-shm-dir
   annotations:
     app.accuknox.com/type: harden
+  namespace: container_namespace
 spec:
   selector:
     matchLabels:
