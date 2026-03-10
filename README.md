@@ -49,10 +49,10 @@ Expected output:
 
 ## 🧭 Environment Setup Summary
 
-Below is the summarized workflow we followed during setup:
+Below is the summarized workflow we followed during my setup:
 
-1. **Created Ubuntu VM in Oracle Cloud (OCI)**  
-   → `Canonical Ubuntu 22.04` image, with public key authentication  
+1. **Created Ubuntu VM**  
+   → `Canonical Ubuntu 22.04` image 
 2. **Installed KubeArmor in VM mode**  
    ```bash
    curl -s -L https://raw.githubusercontent.com/kubearmor/KubeArmor/main/install.sh | sudo bash
